@@ -21,6 +21,10 @@ def calc_determinant(determinant):
     :param determinant: 行列式
     :return: 行列式的值
     """
+    if len(determinant) == 0 or len(determinant) != len(determinant[0]):
+        print('行列式不能为空且必须是方阵')
+        return
+
     n = len(determinant)
     ans = 0
     # 行标为标准排列
