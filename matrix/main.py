@@ -155,3 +155,6 @@ if __name__ == '__main__':
     # p52/9(1)(3)
     print(reverse_of_matrix([[1, 2], [2, 5]]))
     print(reverse_of_matrix([[1, 2, -1], [3, 4, -2], [5, -4, 1]]))
+
+    # p55/28(1)
+    print(reverse_of_matrix([[5, 2, 0, 0], [2, 1, 0, 0], [0, 0, 8, 3], [0, 0, 5, 2]]))
