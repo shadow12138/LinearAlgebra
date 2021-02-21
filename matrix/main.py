@@ -1,3 +1,6 @@
+from determinant import main as determinant
+
+
 def multiplication_by_scalar(matrix, k):
     """
     矩阵的数乘
@@ -90,6 +93,48 @@ def multiplication_of_matrix(m_left, m_right):
     return [[dot_product(m_left[i], m_right[j]) for j in range(c2)] for i in range(r1)]
 
 
+def adjoint_of_matrix(matrix):
+    """
+    求矩阵的伴随矩阵（只有方阵才有伴随矩阵）
+    伴随矩阵按行求，按列放
+    :param matrix:
+    :return:
+    """
+    rows = len(matrix)
+    if rows == 0:
+        return []
+    cols = len(matrix[0])
+    if rows != cols:
+        print('只有方阵才有伴随矩阵')
+        return
+    results = []
+    for j in range(cols):
+        result = []
+        for i in range(rows):
+            result.append(determinant.algebraic_cofactor_of_determinant(matrix, i, j))
+        results.append(result)
+    return results
+
+
+def reverse_of_matrix(matrix):
+    """
+    求矩阵的逆矩阵（只有方阵才有逆矩阵）
+    :param matrix:
+    :return:
+    """
+    if len(matrix) == 0:
+        return []
+    if len(matrix) != len(matrix[0]):
+        print('只有方阵才有逆矩阵')
+        return
+    val = determinant.calc_determinant(matrix)
+    if val == 0:
+        print('方阵行列式为0，不存在可逆矩阵')
+        return
+    adjoint = adjoint_of_matrix(matrix)
+    return multiplication_by_scalar(adjoint, 1. / val)
+
+
 if __name__ == '__main__':
     # p52/1
     print(multiplication_of_matrix([[4, 3, 1], [1, -2, 3], [5, 7, 0]], [[7], [2], [1]]))
@@ -106,3 +151,7 @@ if __name__ == '__main__':
     print(subtraction_of_matrix(ab3, a2))
     # 计算A转置和B的乘积
     print(multiplication_of_matrix(transform_of_matrix(a), b))
+
+    # p52/9(1)(3)
+    print(reverse_of_matrix([[1, 2], [2, 5]]))
+    print(reverse_of_matrix([[1, 2, -1], [3, 4, -2], [5, -4, 1]]))

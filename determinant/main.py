@@ -21,8 +21,10 @@ def calc_determinant(determinant):
     :param determinant: 行列式
     :return: 行列式的值
     """
-    if len(determinant) == 0 or len(determinant) != len(determinant[0]):
-        print('行列式不能为空且必须是方阵')
+    if len(determinant) == 0:
+        return 1
+    if len(determinant) != len(determinant[0]):
+        print('行列式必须是方阵')
         return
 
     n = len(determinant)
@@ -37,6 +39,42 @@ def calc_determinant(determinant):
             curr *= determinant[rows[i]][cols[i]]
         ans += curr
     return ans
+
+
+def cofactor_of_determinant(determinant, i, j):
+    """
+    计算行列式在第i行第j列的余子式
+    :param determinant:
+    :param i:
+    :param j:
+    :return:
+    """
+    if len(determinant) == 0:
+        return 1
+    rows, cols = len(determinant), len(determinant[0])
+    sub_determinant = []
+    for r in range(rows):
+        if r == i:
+            continue
+        row = []
+        for c in range(cols):
+            if c == j:
+                continue
+            row.append(determinant[r][c])
+        sub_determinant.append(row)
+    return calc_determinant(sub_determinant)
+
+
+def algebraic_cofactor_of_determinant(determinant, i, j):
+    """
+    计算行列式在第i行第j列的代数余子式
+    :param determinant:
+    :param i:
+    :param j:
+    :return:
+    """
+    symbol = 1 if (i + j) % 2 == 0 else -1
+    return symbol * cofactor_of_determinant(determinant, i, j)
 
 
 if __name__ == '__main__':
