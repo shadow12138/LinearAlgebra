@@ -147,12 +147,17 @@ def row_echelon_of_matrix(matrix):
     cols = len(matrix[0])
 
     for r_standard in range(min(rows, cols)):
-        if matrix[r_standard][r_standard] == 0:
+        c_standard = -1
+        for col in range(cols):
+            if matrix[r_standard][col] != 0:
+                c_standard = col
+                break
+        if c_standard == -1:
             continue
         for r_compare in range(r_standard + 1, rows):
-            if matrix[r_compare][r_standard] == 0:
+            if matrix[r_compare][c_standard] == 0:
                 continue
-            factor = -1. * matrix[r_standard][r_standard] / matrix[r_compare][r_standard]
+            factor = -1. * matrix[r_compare][c_standard] / matrix[r_standard][c_standard]
             matrix[r_compare] = [matrix[r_compare][col] + factor * matrix[r_standard][col] for col in range(cols)]
     return matrix
 
@@ -199,7 +204,17 @@ def rank_of_matrix(matrix):
     :param matrix:
     :return:
     """
-    return sum([0 if sum(row) == 0 else 1 for row in row_echelon_of_matrix(matrix)])
+    ans = 0
+    for row in row_echelon_of_matrix(matrix):
+        is_zero_row = True
+        for col in row:
+            # 有精度问题，所以使用一个很小的值来判定当前数字是否为0
+            if abs(col) > (0.1 ** 10):
+                is_zero_row = False
+                break
+        if not is_zero_row:
+            ans += 1
+    return ans
 
 
 if __name__ == '__main__':
@@ -226,3 +241,12 @@ if __name__ == '__main__':
     # p55/28(1)
     print(reverse_of_matrix([[5, 2, 0, 0], [2, 1, 0, 0], [0, 0, 8, 3], [0, 0, 5, 2]]))
 
+    # p77/1(1-3)
+    print(simplify_row_echelon_of_matrix([[1, 0, 2, -1], [2, 0, 3, 1], [3, 0, 4, 3]]))
+    print(simplify_row_echelon_of_matrix([[0, 2, -3, 1], [0, 3, -4, 3], [0, 4, -7, -1]]))
+    print(simplify_row_echelon_of_matrix([[1, -1, 3, -4, 3], [3, -3, 5, -4, 1], [2, -2, 3, -2, 0], [3, -3, 4, -2, -1]]))
+
+    # p78/10
+    print(rank_of_matrix([[3, 1, 0, 2], [1, -1, 2, -1], [1, 3, -4, 4]]))
+    print(rank_of_matrix([[3, 2, -1, -3, -1], [2, -1, 3, 1, -3], [7, 0, 5, -1, -8]]))
+    print(rank_of_matrix([[2, 1, 8, 3, 7], [2, -3, 0, 7, -5], [3, -2, 5, 8, 0], [1, 0, 3, 2, 0]]))
