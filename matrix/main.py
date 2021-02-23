@@ -135,6 +135,73 @@ def reverse_of_matrix(matrix):
     return multiplication_by_scalar(adjoint, 1. / val)
 
 
+def row_echelon_of_matrix(matrix):
+    """
+    求行阶梯形矩阵
+    :param matrix:
+    :return:
+    """
+    rows = len(matrix)
+    if rows == 0:
+        return []
+    cols = len(matrix[0])
+
+    for r_standard in range(min(rows, cols)):
+        if matrix[r_standard][r_standard] == 0:
+            continue
+        for r_compare in range(r_standard + 1, rows):
+            if matrix[r_compare][r_standard] == 0:
+                continue
+            factor = -1. * matrix[r_standard][r_standard] / matrix[r_compare][r_standard]
+            matrix[r_compare] = [matrix[r_compare][col] + factor * matrix[r_standard][col] for col in range(cols)]
+    return matrix
+
+
+def simplify_row_echelon_of_matrix(matrix):
+    """
+    求简化形行阶梯矩阵
+    :param matrix:
+    :return:
+    """
+    rows = len(matrix)
+    if rows == 0:
+        return []
+    cols = len(matrix[0])
+
+    # 简化形行阶梯矩阵首先是行阶梯矩阵
+    matrix = row_echelon_of_matrix(matrix)
+
+    # 非零行的首元素必须是1
+    first_elements = []
+    for row in range(rows):
+        for col in range(cols):
+            if matrix[row][col] != 0:
+                first_elements.append((row, col))
+                factor = 1. / matrix[row][col]
+                matrix[row] = [matrix[row][c] * factor for c in range(cols)]
+                break
+
+    # 非零行的首元素所在列的其他元素必须为0
+    for row_curr, col in first_elements:
+        for row_upper in range(row_curr - 1, -1, -1):
+            if matrix[row_upper][col] == 0:
+                continue
+            factor = -1. * matrix[row_upper][col] / matrix[row_curr][col]
+            matrix[row_upper] = [matrix[row_upper][c] + factor * matrix[row_curr][c] for c in range(cols)]
+
+    return matrix
+
+
+def rank_of_matrix(matrix):
+    """
+    矩阵的秩
+    行阶梯形矩阵的非零行数
+    :param matrix:
+    :return:
+    """
+    return sum([0 if sum(row) == 0 else 1 for row in row_echelon_of_matrix(matrix)])
+
+
 if __name__ == '__main__':
     # p52/1
     print(multiplication_of_matrix([[4, 3, 1], [1, -2, 3], [5, 7, 0]], [[7], [2], [1]]))
@@ -158,3 +225,4 @@ if __name__ == '__main__':
 
     # p55/28(1)
     print(reverse_of_matrix([[5, 2, 0, 0], [2, 1, 0, 0], [0, 0, 8, 3], [0, 0, 5, 2]]))
+
