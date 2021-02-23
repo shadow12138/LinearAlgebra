@@ -218,7 +218,7 @@ def rank_of_matrix(matrix):
 
 
 if __name__ == '__main__':
-    # p52/1
+    # p52/1 矩阵的乘法
     print(multiplication_of_matrix([[4, 3, 1], [1, -2, 3], [5, 7, 0]], [[7], [2], [1]]))
     print(multiplication_of_matrix([[1, 2, 3]], [[3], [2], [1]]))
     print(multiplication_of_matrix([[2], [1], [3]], [[-1, 2]]))
@@ -234,19 +234,18 @@ if __name__ == '__main__':
     # 计算A转置和B的乘积
     print(multiplication_of_matrix(transform_of_matrix(a), b))
 
-    # p52/9(1)(3)
+    # p52/9(1)(3) 矩阵的逆
     print(reverse_of_matrix([[1, 2], [2, 5]]))
     print(reverse_of_matrix([[1, 2, -1], [3, 4, -2], [5, -4, 1]]))
-
     # p55/28(1)
     print(reverse_of_matrix([[5, 2, 0, 0], [2, 1, 0, 0], [0, 0, 8, 3], [0, 0, 5, 2]]))
 
-    # p77/1(1-3)
+    # p77/1(1-3) 行最简形矩阵
     print(simplify_row_echelon_of_matrix([[1, 0, 2, -1], [2, 0, 3, 1], [3, 0, 4, 3]]))
     print(simplify_row_echelon_of_matrix([[0, 2, -3, 1], [0, 3, -4, 3], [0, 4, -7, -1]]))
     print(simplify_row_echelon_of_matrix([[1, -1, 3, -4, 3], [3, -3, 5, -4, 1], [2, -2, 3, -2, 0], [3, -3, 4, -2, -1]]))
 
-    # p78/10
+    # p78/10 矩阵的秩
     print(rank_of_matrix([[3, 1, 0, 2], [1, -1, 2, -1], [1, 3, -4, 4]]))
     print(rank_of_matrix([[3, 2, -1, -3, -1], [2, -1, 3, 1, -3], [7, 0, 5, -1, -8]]))
     print(rank_of_matrix([[2, 1, 8, 3, 7], [2, -3, 0, 7, -5], [3, -2, 5, 8, 0], [1, 0, 3, 2, 0]]))
